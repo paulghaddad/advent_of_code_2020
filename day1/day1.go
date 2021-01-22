@@ -7,7 +7,8 @@ import (
 	"strconv"
 )
 
-func expenseReportSum(items []int, goal int) []int {
+// Time: O(n); Space: O(n)
+func expenseReportTwoSum(items []int, goal int) []int {
 	visitedItems := make(map[int]bool)
 
 	for _, item := range items {
@@ -16,6 +17,30 @@ func expenseReportSum(items []int, goal int) []int {
 			return []int{item, goal - item}
 		}
 		visitedItems[item] = true
+	}
+
+	return []int{}
+}
+
+// Time: O(n^2); Space: O(n)
+func expenseReportThreeSum(items []int, goal int) []int {
+	nums := make(map[int]int)
+	for _, num := range items {
+		nums[num] = goal - num
+	}
+
+	for num, sumNeeded := range nums {
+		for _, comp1 := range items {
+			for _, comp2 := range items {
+				if num == comp1 || num == comp2 || comp1 == comp2 {
+					break
+				}
+
+				if comp1+comp2 == sumNeeded {
+					return []int{num, comp1, comp2}
+				}
+			}
+		}
 	}
 
 	return []int{}
@@ -41,5 +66,7 @@ func main() {
 		expenseItems = append(expenseItems, item)
 	}
 
-	fmt.Printf("The values that add up to %d are %v\n", 2020, expenseReportSum(expenseItems, 2020))
+	fmt.Printf("The two values that add up to %d are %v\n", 2020, expenseReportTwoSum(expenseItems, 2020))
+	fmt.Printf("The three values that add up to %d are %v\n", 2020, expenseReportThreeSum(expenseItems, 2020))
+
 }
